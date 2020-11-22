@@ -2,3 +2,4 @@
 *.swo
 node_modules
 .DS_Store
+variables.env
