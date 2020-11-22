@@ -7,6 +7,10 @@
   "author": "Santiago <santo1996.29@gmail.com>",
   "license": "MIT",
   "private": false,
+  "scripts": {
+      "server": "node .",
+      "dev-server": "nodemon ."
+  },
   "devDependencies": {
     "nodemon": "^2.0.6"
   },
