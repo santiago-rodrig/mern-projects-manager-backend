@@ -1,12 +1,23 @@
 const User = require('../models/User')
 
 exports.createUser = async (req, res) => {
+    const { email } = req.body
+
     try {
-        const user = new User(req.body)
+        let user = await User.findOne({ email })
+
+        if (user) {
+            return res.status(400).json({ msg: 'Email is already taken' })
+        }
+
+        user = new User(req.body)
+
         await user.save()
-        res.send("User was successfully created")
+
+        return res.json({ msg: 'User was successfully created' })
     } catch (error) {
         console.log(error)
-        res.status(400).send("Something went wrong")
+
+        return res.status(400).json({ msg: 'Something went wrong' })
     }
 }
