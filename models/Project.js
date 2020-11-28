@@ -14,4 +14,4 @@ const projectSchema = mongoose.Schema({
         default: Date.now,
     },
 })
-module.exports.default = mongoose.model('Project', projectSchema)
+module.exports = mongoose.model('Project', projectSchema)
