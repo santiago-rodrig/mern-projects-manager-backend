@@ -3,13 +3,13 @@ const userSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
     },
     email: {
         type: String,
         required: true,
         trim: true,
-        unique: true
+        unique: true,
     },
     password: {
         type: String,
@@ -18,7 +18,7 @@ const userSchema = mongoose.Schema({
     },
     created_at: {
         type: Date,
-        default: Date.now
-    }
+        default: Date.now,
+    },
 })
 module.exports = mongoose.model('User', userSchema)
