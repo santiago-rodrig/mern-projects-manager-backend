@@ -18,4 +18,4 @@ const taskSchema = mongoose.Schema({
         ref: 'Project',
     },
 })
-exports = mongoose.model('Task', taskSchema)
+module.exports = mongoose.model('Task', taskSchema)
