@@ -32,13 +32,16 @@ exports.updateProject = async (req, res) => {
     }
     try {
         const projectAttributes = { name: req.body.name }
-        const project = await Project.findById(req.params.id)
+        let project = await Project.findById(req.params.id)
         if (project.owner.toString() !== req.body.owner) {
             return res
                 .status(401)
                 .json({ msg: 'You are not the owner of this project' })
         }
-        await Project.findByIdAndUpdate(req.params.id, projectAttributes)
+        project = await Project.findByIdAndUpdate(
+            req.params.id,
+            projectAttributes
+        )
         res.json({ project })
     } catch (error) {
         console.log(error)
