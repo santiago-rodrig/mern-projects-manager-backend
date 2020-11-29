@@ -10,6 +10,5 @@ router.post(
     [check('name', 'The project must have a nonempty name').not().isEmpty()],
     projectsController.createProject
 )
-// TODO
-// router.get('/', authprojectsController.getProjects)
+router.get('/', auth, projectsController.getProjects)
 module.exports = router

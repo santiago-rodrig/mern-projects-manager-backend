@@ -11,6 +11,17 @@ exports.createProject = async (req, res) => {
         res.json(project)
     } catch (error) {
         console.log(error)
-        res.status(400).json({ msg: 'Something went wrong' })
+        res.status(500).json({ msg: 'Something went wrong' })
+    }
+}
+exports.getProjects = async (req, res) => {
+    try {
+        const projects = await Project.find({ owner: req.body.owner }).sort({
+            created_at: -1,
+        })
+        res.json({ projects })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ msg: 'Something went wrong' })
     }
 }

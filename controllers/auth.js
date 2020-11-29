@@ -11,11 +11,11 @@ exports.authenticateUser = async (req, res) => {
     try {
         const user = await User.findOne({ email })
         if (!user) {
-            return res.status(400).json({ msg: 'Inexistent user' })
+            return res.status(401).json({ msg: 'Inexistent user' })
         }
         const validPassword = await bcryptjs.compare(password, user.password)
         if (!validPassword) {
-            return res.status(400).json({ msg: 'Wrong password' })
+            return res.status(401).json({ msg: 'Wrong password' })
         }
         const payload = { user: user.id }
         jwt.sign(
@@ -31,6 +31,6 @@ exports.authenticateUser = async (req, res) => {
         )
     } catch (error) {
         console.log(error)
-        return res.status(400).json({ msg: 'Something went wrong' })
+        return res.status(500).json({ msg: 'Something went wrong' })
     }
 }
