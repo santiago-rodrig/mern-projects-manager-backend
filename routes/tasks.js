@@ -19,4 +19,13 @@ router.get(
     [check('project', "Project identifier can't be empty").not().isEmpty()],
     tasksController.getTasks
 )
+router.put(
+    '/:id',
+    auth,
+    [
+        check('name', "Task name can't be blank").not().isEmpty(),
+        check('completed', 'Task completed state is required').isBoolean(),
+    ],
+    tasksController.updateTask
+)
 module.exports = router
