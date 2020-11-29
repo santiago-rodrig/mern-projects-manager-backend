@@ -28,4 +28,5 @@ router.put(
     ],
     tasksController.updateTask
 )
+router.delete('/:id', auth, tasksController.deleteTask)
 module.exports = router

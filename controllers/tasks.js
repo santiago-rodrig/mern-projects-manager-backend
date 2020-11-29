@@ -79,3 +79,24 @@ exports.updateTask = async (req, res) => {
         res.status(500).json({ msg: 'Something went wrong' })
     }
 }
+exports.deleteTask = async (req, res) => {
+    try {
+        let task = await Task.findById(req.params.id)
+        if (!task) {
+            return res.status(404).json({ msg: 'Task not found ' })
+        }
+        const project = await Project.findById(task.project)
+        if (project.owner.toString() !== req.user) {
+            return res
+                .status(401)
+                .json({ msg: 'You are not the owner of this project' })
+        }
+        await task.remove((err, task) => {
+            if (err) throw error
+            res.json({ msg: 'Task deleted successfully', task })
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ msg: 'Something went wrong' })
+    }
+}
