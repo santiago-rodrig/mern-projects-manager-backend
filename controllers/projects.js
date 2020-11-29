@@ -25,3 +25,23 @@ exports.getProjects = async (req, res) => {
         res.status(500).json({ msg: 'Something went wrong' })
     }
 }
+exports.updateProject = async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() })
+    }
+    try {
+        const projectAttributes = { name: req.body.name }
+        const project = await Project.findById(req.params.id)
+        if (project.owner.toString() !== req.body.owner) {
+            return res
+                .status(401)
+                .json({ msg: 'You are not the owner of this project' })
+        }
+        await Project.findByIdAndUpdate(req.params.id, projectAttributes)
+        res.json({ project })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ msg: 'Something went wrong' })
+    }
+}

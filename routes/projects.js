@@ -11,4 +11,10 @@ router.post(
     projectsController.createProject
 )
 router.get('/', auth, projectsController.getProjects)
+router.put(
+    '/:id',
+    auth,
+    [check('name', 'The project must have a nonempty name').not().isEmpty()],
+    projectsController.updateProject
+)
 module.exports = router
