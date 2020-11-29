@@ -4,7 +4,7 @@ module.exports = (req, res, next) => {
     if (!token) return res.status(401).json({ msg: 'No token provided' })
     try {
         const payload = jwt.verify(token, process.env.SECRET_KEY)
-        req.body = { ...req.body, owner: payload.user }
+        req.user = payload.user
         next()
     } catch (error) {
         console.log(error)

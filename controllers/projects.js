@@ -6,7 +6,10 @@ exports.createProject = async (req, res) => {
         return res.status(400).json({ errors: errors.array() })
     }
     try {
-        const project = new Project(req.body)
+        const project = new Project({
+            ...req.body,
+            owner: req.user,
+        })
         await project.save()
         res.json(project)
     } catch (error) {
@@ -16,7 +19,7 @@ exports.createProject = async (req, res) => {
 }
 exports.getProjects = async (req, res) => {
     try {
-        const projects = await Project.find({ owner: req.body.owner }).sort({
+        const projects = await Project.find({ owner: req.user }).sort({
             created_at: -1,
         })
         res.json({ projects })
@@ -33,7 +36,7 @@ exports.updateProject = async (req, res) => {
     try {
         const projectAttributes = { name: req.body.name }
         let project = await Project.findById(req.params.id)
-        if (project.owner.toString() !== req.body.owner) {
+        if (project.owner.toString() !== req.user) {
             return res
                 .status(401)
                 .json({ msg: 'You are not the owner of this project' })
@@ -51,7 +54,7 @@ exports.updateProject = async (req, res) => {
 exports.deleteProject = async (req, res) => {
     try {
         let project = await Project.findById(req.params.id)
-        if (project.owner.toString() !== req.body.owner) {
+        if (project.owner.toString() !== req.user) {
             return res
                 .status(401)
                 .json({ msg: 'You are not the owner of this project' })
