@@ -13,4 +13,10 @@ router.post(
     ],
     tasksController.createTask
 )
+router.get(
+    '/',
+    auth,
+    [check('project', "Project identifier can't be empty").not().isEmpty()],
+    tasksController.getTasks
+)
 module.exports = router

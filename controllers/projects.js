@@ -34,13 +34,16 @@ exports.updateProject = async (req, res) => {
         return res.status(400).json({ errors: errors.array() })
     }
     try {
-        const projectAttributes = { name: req.body.name }
         let project = await Project.findById(req.params.id)
+        if (!project) {
+            return res.status(404).json({ msg: 'Project not found' })
+        }
         if (project.owner.toString() !== req.user) {
             return res
                 .status(401)
                 .json({ msg: 'You are not the owner of this project' })
         }
+        const projectAttributes = { name: req.body.name }
         project = await Project.findByIdAndUpdate(
             req.params.id,
             projectAttributes
@@ -54,6 +57,9 @@ exports.updateProject = async (req, res) => {
 exports.deleteProject = async (req, res) => {
     try {
         let project = await Project.findById(req.params.id)
+        if (!project) {
+            return res.status(404).json({ msg: 'Project not found' })
+        }
         if (project.owner.toString() !== req.user) {
             return res
                 .status(401)
