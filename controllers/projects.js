@@ -48,3 +48,18 @@ exports.updateProject = async (req, res) => {
         res.status(500).json({ msg: 'Something went wrong' })
     }
 }
+exports.deleteProject = async (req, res) => {
+    try {
+        let project = await Project.findById(req.params.id)
+        if (project.owner.toString() !== req.body.owner) {
+            return res
+                .status(401)
+                .json({ msg: 'You are not the owner of this project' })
+        }
+        project = await Project.findByIdAndRemove(req.params.id)
+        res.json({ msg: 'Project successfully deleted', project })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ msg: 'Something went wrong' })
+    }
+}

@@ -17,4 +17,5 @@ router.put(
     [check('name', 'The project must have a nonempty name').not().isEmpty()],
     projectsController.updateProject
 )
+router.delete('/:id', auth, projectsController.deleteProject)
 module.exports = router
