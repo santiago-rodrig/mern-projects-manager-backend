@@ -2,7 +2,8 @@ const express = require('express')
 const usersController = require('../controllers/users')
 const router = express.Router()
 const { check } = require('express-validator')
-// The root of this route is /api/users
+
+// router root -> /api/users
 router.post(
     '/',
     [
@@ -15,4 +16,5 @@ router.post(
     ],
     usersController.createUser
 )
+
 module.exports = router

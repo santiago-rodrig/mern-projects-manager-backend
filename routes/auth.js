@@ -2,7 +2,9 @@ const express = require('express')
 const router = express.Router()
 const { check } = require('express-validator')
 const authController = require('../controllers/auth')
-// The root of this route is /api/auth
+const auth = require('../middleware/auth')
+
+// router root -> /api/auth
 router.post(
     '/',
     [
@@ -14,4 +16,7 @@ router.post(
     ],
     authController.authenticateUser
 )
+
+router.get('/', auth, authController.loggedInUser)
+
 module.exports = router
