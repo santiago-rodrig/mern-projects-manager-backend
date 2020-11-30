@@ -12,7 +12,7 @@ exports.authenticateUser = async (req, res) => {
     }
 
     try {
-        const user = await User.findOne({ email }).select('-password')
+        const user = await User.findOne({ email })
 
         if (!user) {
             return res.status(401).json({ msg: 'Inexistent user' })
@@ -46,7 +46,7 @@ exports.authenticateUser = async (req, res) => {
 
 exports.loggedInUser = async (req, res) => {
     try {
-        const user = await User.findById(req.user)
+        const user = await User.findById(req.user).select('-password')
 
         if (!user) {
             return res.status(401).json({ msg: 'Invalid token' })
