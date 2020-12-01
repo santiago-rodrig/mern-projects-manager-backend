@@ -23,7 +23,7 @@ yarn install --check-files
 Start the local server.
 
 ```sh
-yarn start
+yarn server
 ```
 
 See the application at [localhost 3000](http://localhost:3000/).
