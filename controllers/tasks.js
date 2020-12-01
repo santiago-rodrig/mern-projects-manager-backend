@@ -69,20 +69,26 @@ exports.getTasks = async (req, res) => {
 
 exports.updateTask = async (req, res) => {
     const errors = validationResult(req)
+
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() })
     }
+
     try {
         let task = await Task.findById(req.params.id)
+
         if (!task) {
             return res.status(404).json({ msg: 'Task not found' })
         }
+
         const project = await Project.findById(task.project)
+
         if (project.owner.toString() !== req.user) {
             return res
                 .status(401)
                 .json({ msg: 'You are not the owner of this project' })
         }
+
         task = await Task.findByIdAndUpdate(
             task.id,
             { ...req.body },
@@ -90,6 +96,7 @@ exports.updateTask = async (req, res) => {
                 if (error) throw error
             }
         )
+
         res.json({ msg: 'Task updated successfully', task })
     } catch (error) {
         console.log(error)
